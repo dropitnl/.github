@@ -1,0 +1,36 @@
+# .github/workflows/pint-formatter.yml
+name: PHP Code Formatter
+
+on:
+  pull_request:
+    branches:
+      - [develop,master]
+
+jobs:
+  pint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+      
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: mbstring, pdo_mysql, dom, fileinfo, gd, imagick, json, exif
+          tools: composer:v2, php-cs-fixer
+          coverage: none
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --no-dev
+
+      - name: Run Laravel Pint
+        run: ./vendor/bin/pint
+
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: '🎨 [Pint] Apply PHP coding style fixes'
+          branch: ${{ github.head_ref }}
