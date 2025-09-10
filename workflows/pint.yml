@@ -1,5 +1,4 @@
-# .github/workflows/pint-formatter.yml
-name: PHP Code Formatter
+name: Pint Formatter
 
 on:
   pull_request:
