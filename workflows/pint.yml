@@ -3,7 +3,9 @@ name: Pint Formatter
 on:
   pull_request:
     branches:
-      - [develop,master]
+      - develop
+      - master
+  workflow_dispatch:
 
 jobs:
   pint:
